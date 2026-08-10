@@ -1,0 +1,315 @@
+/* HERO */
+.about-hero{
+background:
+linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600");
+background-size:cover;
+background-position:center;
+height:350px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+color:white;
+text-align:center;
+animation:heroZoom 1.5s ease;
+}
+
+.about-hero h1{
+font-size:55px;
+margin-bottom:15px;
+animation:slideDown 1s ease;
+}
+
+.about-hero p{
+font-size:20px;
+animation:fadeIn 2s ease;
+}
+
+/* ABOUT SECTION */
+.about-section{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:60px;
+padding:80px 8%;
+flex-wrap:wrap;
+background:white;
+}
+
+.about-image{
+animation:slideLeft 1s ease;
+}
+
+.about-image img{
+width:500px;
+max-width:100%;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,.15);
+transition:.5s;
+}
+
+.about-image img:hover{
+transform:scale(1.05) rotate(1deg);
+}
+
+.about-content{
+flex:1;
+min-width:300px;
+animation:slideRight 1s ease;
+}
+
+.about-content h2{
+font-size:42px;
+color:#333;
+margin-bottom:20px;
+}
+
+.about-content p{
+font-size:18px;
+line-height:1.8;
+color:#666;
+margin-bottom:20px;
+}
+
+.about-content button{
+padding:14px 30px;
+background:#ff5722;
+border:none;
+color:white;
+font-size:16px;
+border-radius:30px;
+cursor:pointer;
+transition:.4s;
+}
+
+.about-content button:hover{
+background:#e64a19;
+transform:translateY(-5px);
+}
+
+/* WHY SECTION */
+.why-us{
+padding:80px 8%;
+background:#fff3ec;
+text-align:center;
+}
+
+.why-us h1{
+font-size:42px;
+margin-bottom:40px;
+animation:fadeIn 1s;
+}
+
+.why-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:30px;
+}
+
+.why-card{
+background:white;
+padding:35px;
+border-radius:20px;
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+transition:.5s;
+animation:cardShow 1s ease;
+}
+
+.why-card:hover{
+transform:translateY(-15px);
+box-shadow:0 15px 30px rgba(255,87,34,.3);
+}
+
+.why-card h2{
+font-size:45px;
+transition:.4s;
+}
+
+.why-card:hover h2{
+transform:scale(1.2);
+}
+
+.why-card h3{
+margin:15px;
+color:#333;
+}
+
+.why-card p{
+color:#666;
+}
+
+/* TEAM */
+.team{
+padding:80px 8%;
+text-align:center;
+}
+
+.team h1{
+font-size:42px;
+margin-bottom:40px;
+}
+
+.team-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+}
+
+.chef-card{
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 5px 20px rgba(0,0,0,.1);
+transition:.5s;
+}
+
+.chef-card:hover{
+transform:translateY(-12px);
+}
+
+.chef-card img{
+width:180px;
+height:180px;
+border-radius:50%;
+object-fit:cover;
+margin-bottom:20px;
+transition:.5s;
+}
+
+.chef-card:hover img{
+transform:rotate(5deg) scale(1.08);
+}
+
+.chef-card h3{
+margin-bottom:10px;
+}
+
+.chef-card p{
+color:#ff5722;
+font-weight:bold;
+}
+
+/* STATS */
+.stats{
+background:#ff5722;
+color:white;
+padding:70px 8%;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:30px;
+text-align:center;
+}
+
+.stats div{
+animation:upDown 2s infinite alternate;
+}
+
+.stats h1{
+font-size:45px;
+margin-bottom:10px;
+}
+
+/* ANIMATIONS */
+@keyframes heroZoom{
+from{
+opacity:0;
+transform:scale(1.2);
+}
+
+to{
+opacity:1;
+transform:scale(1);
+}
+}
+
+@keyframes slideDown{
+from{
+opacity:0;
+transform:translateY(-50px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes slideLeft{
+from{
+opacity:0;
+transform:translateX(-80px);
+}
+
+to{
+opacity:1;
+transform:translateX(0);
+}
+}
+
+@keyframes slideRight{
+from{
+opacity:0;
+transform:translateX(80px);
+}
+
+to{
+opacity:1;
+transform:translateX(0);
+}
+}
+
+@keyframes fadeIn{
+from{
+opacity:0;
+}
+
+to{
+opacity:1;
+}
+}
+
+@keyframes cardShow{
+from{
+opacity:0;
+transform:translateY(50px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes upDown{
+from{
+transform:translateY(0);
+}
+
+to{
+transform:translateY(-10px);
+}
+}
+
+/* MOBILE */
+@media(max-width:768px){
+.about-hero{
+height:300px;
+}
+
+.about-hero h1{
+font-size:38px;
+}
+
+.about-section{
+padding:50px 20px;
+}
+
+.about-content h2{
+font-size:32px;
+}
+.why-us,
+.team{
+padding:50px 20px;
+}
+}

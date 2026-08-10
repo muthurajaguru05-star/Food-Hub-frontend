@@ -1,0 +1,162 @@
+/* Topbar Main */
+.topbar {
+    width: 100%;
+    height: 70px;
+    background: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+}
+
+
+/* Left Section */
+.topbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.topbar-left h2 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+
+/* Right Section */
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+
+/* Notification */
+.notification {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    color: #555;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.notification:hover {
+    color: #ff5722;
+}
+
+
+/* Notification Badge */
+.notification .badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+
+    width: 18px;
+    height: 18px;
+
+    background: #ff0000;
+    color: white;
+
+    border-radius: 50%;
+
+    font-size: 11px;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Admin Profile */
+.admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+
+/* Profile Icon */
+.profile-icon {
+    font-size: 42px;
+    color: #ff5722;
+}
+
+
+/* Profile Text */
+.profile-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.profile-text h4 {
+    margin: 0;
+    color: #333;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+
+.profile-text p {
+    margin: 2px 0 0;
+    color: #777;
+    font-size: 13px;
+}
+
+
+/* Tablet */
+@media(max-width:900px){
+
+    .topbar {
+        padding: 0 15px;
+    }
+
+    .topbar-left h2 {
+        font-size: 20px;
+    }
+
+    .topbar-right {
+        gap:15px;
+    }
+
+}
+
+
+/* Mobile */
+@media(max-width:600px){
+
+    .topbar {
+        height:auto;
+        padding:15px;
+        flex-direction:column;
+        gap:15px;
+        align-items:flex-start;
+    }
+
+
+    .topbar-right {
+        width:100%;
+        justify-content:space-between;
+    }
+
+
+    .profile-text {
+        display:none;
+    }
+
+
+    .profile-icon {
+        font-size:38px;
+    }
+
+}

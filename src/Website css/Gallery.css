@@ -1,0 +1,461 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+/* ================= HERO ================= */
+
+.gallery-hero{
+    position:relative;
+    height:420px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    overflow:hidden;
+    color:#fff;
+    background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+    url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1800");
+    background-size:cover;
+    background-position:center;
+    animation:bgZoom 18s infinite alternate;
+}
+
+.gallery-hero::before{
+    content:"";
+    position:absolute;
+    width:650px;
+    height:650px;
+    background:radial-gradient(circle,#ff980055,transparent 70%);
+    top:-180px;
+    left:-120px;
+    animation:floatGlow 8s ease-in-out infinite;
+}
+
+.gallery-hero::after{
+    content:"";
+    position:absolute;
+    width:550px;
+    height:550px;
+    background:radial-gradient(circle,#ff4d4d44,transparent 70%);
+    bottom:-200px;
+    right:-120px;
+    animation:floatGlow2 9s ease-in-out infinite;
+}
+
+.gallery-hero h1{
+    position:relative;
+    z-index:2;
+    font-size:65px;
+    font-weight:800;
+    letter-spacing:2px;
+    text-shadow:0 8px 30px rgba(0,0,0,.5);
+    animation:fadeDown 1s ease;
+}
+
+.gallery-hero p{
+    position:relative;
+    z-index:2;
+    margin-top:18px;
+    font-size:20px;
+    max-width:760px;
+    line-height:1.8;
+    animation:fadeUp 1.3s ease;
+}
+
+/* ================= GALLERY ================= */
+
+.gallery-container{
+
+    width:92%;
+    margin:80px auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+
+    gap:35px;
+
+}
+
+.gallery-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:25px;
+
+    background:#fff;
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,.15);
+
+    transition:.45s;
+
+    animation:cardFade .8s ease;
+
+}
+
+.gallery-card img{
+
+    width:100%;
+
+    height:280px;
+
+    object-fit:cover;
+
+    transition:transform .6s;
+
+}
+
+.gallery-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:linear-gradient(to top,
+    rgba(0,0,0,.65),
+    transparent);
+
+    opacity:0;
+
+    transition:.4s;
+
+}
+
+.gallery-card::after{
+
+    content:"🍽 Delicious";
+
+    position:absolute;
+
+    bottom:20px;
+
+    left:25px;
+
+    color:white;
+
+    font-size:22px;
+
+    font-weight:600;
+
+    transform:translateY(30px);
+
+    opacity:0;
+
+    transition:.4s;
+
+}
+
+.gallery-card:hover{
+
+    transform:translateY(-12px);
+
+    box-shadow:
+    0 25px 55px rgba(0,0,0,.25);
+
+}
+
+.gallery-card:hover img{
+
+    transform:scale(1.15) rotate(2deg);
+
+}
+
+.gallery-card:hover::before{
+
+    opacity:1;
+
+}
+
+.gallery-card:hover::after{
+
+    transform:translateY(0);
+
+    opacity:1;
+
+}
+
+/* ================= INFO ================= */
+
+.gallery-info{
+
+    padding:90px 10%;
+
+    text-align:center;
+
+    background:linear-gradient(135deg,#fff8f2,#fff);
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.gallery-info::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+
+    height:450px;
+
+    border-radius:50%;
+
+    background:#ff980018;
+
+    left:-180px;
+
+    top:-150px;
+
+}
+
+.gallery-info::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:400px;
+
+    height:400px;
+
+    border-radius:50%;
+
+    background:#ff572215;
+
+    right:-150px;
+
+    bottom:-180px;
+
+}
+
+.gallery-info h2{
+
+    position:relative;
+
+    z-index:2;
+
+    font-size:45px;
+
+    font-weight:700;
+
+    color:#222;
+
+    margin-bottom:20px;
+
+}
+
+.gallery-info p{
+
+    position:relative;
+
+    z-index:2;
+
+    font-size:18px;
+
+    line-height:2;
+
+    color:#666;
+
+    max-width:900px;
+
+    margin:auto;
+
+}
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes bgZoom{
+
+0%{
+background-size:100%;
+}
+
+100%{
+background-size:115%;
+}
+
+}
+
+@keyframes fadeDown{
+
+from{
+
+opacity:0;
+
+transform:translateY(-50px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+@keyframes fadeUp{
+
+from{
+
+opacity:0;
+
+transform:translateY(50px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+@keyframes cardFade{
+
+from{
+
+opacity:0;
+
+transform:translateY(70px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+@keyframes floatGlow{
+
+0%,100%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(40px);
+
+}
+
+}
+
+@keyframes floatGlow2{
+
+0%,100%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-35px);
+
+}
+
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:992px){
+
+.gallery-hero{
+
+height:350px;
+
+}
+
+.gallery-hero h1{
+
+font-size:48px;
+
+}
+
+.gallery-hero p{
+
+font-size:18px;
+
+}
+
+.gallery-info h2{
+
+font-size:36px;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.gallery-container{
+
+grid-template-columns:1fr;
+
+gap:25px;
+
+}
+
+.gallery-card img{
+
+height:240px;
+
+}
+
+.gallery-hero{
+
+height:300px;
+
+}
+
+.gallery-hero h1{
+
+font-size:38px;
+
+}
+
+.gallery-hero p{
+
+font-size:16px;
+
+padding:0 20px;
+
+}
+
+.gallery-info{
+
+padding:60px 25px;
+
+}
+
+.gallery-info h2{
+
+font-size:30px;
+
+}
+
+.gallery-info p{
+
+font-size:16px;
+
+}
+
+}
