@@ -4,12 +4,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FaHome,
   FaUtensils,
-  FaPlusCircle,
-  FaEdit,
   FaShoppingCart,
   FaUsers,
-  FaImages,
-  FaChartBar,
   FaSignOutAlt,
   FaThLarge,
 } from "react-icons/fa";

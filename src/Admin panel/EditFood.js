@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
@@ -23,23 +23,16 @@ function EditFood() {
 
   const [preview, setPreview] = useState("");
 
-  useEffect(() => {
-    getCategories();
-    getFood();
-  }, []);
-
-  // Get Categories
-  const getCategories = async () => {
+  const getCategories = useCallback(async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/categories");
       setCategories(res.data);
     } catch (err) {
       console.log(err);
     }
-  };
+  }, []);
 
-  // Get Single Food
-  const getFood = async () => {
+  const getFood = useCallback(async () => {
     try {
       const res = await axios.get(
         `http://localhost:5000/api/foods/${id}`
@@ -54,11 +47,15 @@ function EditFood() {
       });
 
       setPreview(res.data.image);
-
     } catch (err) {
       console.log(err);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    getCategories();
+    getFood();
+  }, [getCategories, getFood]);
 
   // Input Change
   const handleChange = (e) => {

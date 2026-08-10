@@ -27,33 +27,22 @@ function EditCategory() {
   // Load Category
 
   useEffect(() => {
+    const getCategory = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/categories/${id}`
+        );
+
+        setName(res.data.name);
+        setPreview(res.data.image);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
     getCategory();
+  }, [id]);
 
-  }, []);
-
-
-
-
-  const getCategory = async () => {
-
-    try {
-
-      const res = await axios.get(
-        `http://localhost:5000/api/categories/${id}`
-      );
-
-      setName(res.data.name);
-
-      setPreview(res.data.image);
-
-    } catch (err) {
-
-      console.log(err);
-
-    }
-
-  };
 
 
 
