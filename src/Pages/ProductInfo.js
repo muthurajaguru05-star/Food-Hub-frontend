@@ -13,18 +13,16 @@ const {id}=useParams();
 const [food,setFood]=useState({});
 
 useEffect(()=>{
-getFood();
-},[]);
+  const getFood = async () => {
+    const res = await axios.get(
+      `http://localhost:5000/api/foods/${id}`
+    );
 
-const getFood=async()=>{
+    setFood(res.data);
+  };
 
-const res=await axios.get(
-`http://localhost:5000/api/foods/${id}`
-);
-
-setFood(res.data);
-
-}
+  getFood();
+},[id]);
 
 const addToCart=()=>{
 

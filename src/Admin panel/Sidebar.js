@@ -10,10 +10,8 @@ import {
   FaUsers,
   FaImages,
   FaChartBar,
-  FaCog,
   FaSignOutAlt,
-    FaThLarge,
-
+  FaThLarge,
 } from "react-icons/fa";
 
 import "../Admin css/Sidebar.css";

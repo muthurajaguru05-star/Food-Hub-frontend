@@ -7,8 +7,6 @@ import Swal from "sweetalert2";
 
 function Contact() {
 
-  const [open, setOpen] = useState(false);
-
   const [form,setForm]=useState({
 
 name:"",

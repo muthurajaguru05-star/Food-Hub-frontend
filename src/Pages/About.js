@@ -5,8 +5,6 @@ import Footer from "../Components/Footer";
 
 function About() {
 
-  const [open, setOpen] = useState(false);
-
   return (
     <>
 

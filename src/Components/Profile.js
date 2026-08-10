@@ -50,7 +50,7 @@ setUser(loginUser);
 getOrders(loginUser._id);
 
 
-},[]);
+},[navigate]);
 
 
 
