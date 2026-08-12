@@ -31,7 +31,7 @@ function Sidebar() {
       <ul>
 
         <li className={location.pathname === "/admin/dashboard" ? "active" : ""}>
-          <Link to="/">
+          <Link to="/dashboard">
             <FaHome />
             <span>Dashboard</span>
           </Link>

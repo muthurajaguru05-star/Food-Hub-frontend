@@ -237,6 +237,26 @@ transform:translateY(-5px);
   font-size:22px;
 }
 
+/* Logout */
+
+.logout-btn{
+  padding:7px 30px;
+  border:none;
+  background:#ff5722;
+  color:white;
+  font-weight:bold;
+  border-radius:5px;
+  cursor:pointer;
+  font-size:15px;
+  transition:.3s;
+  position: relative;
+  left: 10px;
+}
+
+.logout-btn:hover{
+  background:#e64a19;
+}
+
 
 /* Mobile Icon */
 
@@ -339,11 +359,16 @@ transform:translateY(-5px);
 .navebarlogin-btn,
 .logout-btn{
   width:auto;
-  min-width:120px;
-  max-width:180px;
+  min-width:auto;
+  max-width:none;
   justify-content:center;
-  padding:8px 14px;
+  padding:3px 8px;
   left:0;
+  font-size:12px;
+}
+
+.navebarlogin-icon{
+  font-size:14px;
 }
 }
 
