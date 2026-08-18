@@ -47,7 +47,6 @@ function Home() {
                <button className="order-btn" onClick={() => navigate("/menu")}>
                      Order Now
                  </button>
-            
           </div>
 
           <div className="hero-image">
@@ -56,7 +55,6 @@ function Home() {
               alt="food"
             />
           </div>
-
         </section>
 
          {/* Features */}

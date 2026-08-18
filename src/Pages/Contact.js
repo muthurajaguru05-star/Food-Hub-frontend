@@ -131,50 +131,39 @@ title:"Failed"
 
           <h2>Send Message</h2>
 
-           <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
 
-<input
-type="text"
-name="name"
-placeholder="Your Name"
-value={form.name}
-onChange={handleChange}
-/>
+           <input type="text"
+            name="name"
+            placeholder="Your Name"
+            value={form.name}
+            onChange={handleChange}
+            />
 
-<input
-type="email"
-name="email"
-placeholder="Your Email"
-value={form.email}
-onChange={handleChange}
-/>
+          <input type="email"
+           name="email"
+           placeholder="Your Email"
+           value={form.email}
+           onChange={handleChange}
+           />
 
-<input
-type="text"
-name="subject"
-placeholder="Subject"
-value={form.subject}
-onChange={handleChange}
-/>
+        <input type="text"
+         name="subject"
+         placeholder="Subject"
+         value={form.subject}
+         onChange={handleChange}
+         />
 
-<textarea
-rows="6"
-name="message"
-placeholder="Your Message"
-value={form.message}
-onChange={handleChange}
-></textarea>
+        <textarea rows="6"
+         name="message"
+         placeholder="Your Message"
+         value={form.message}
+         onChange={handleChange}
+         ></textarea>
 
-<button type="submit">
-
-Send Message
-
-</button>
-
-</form>
-
+       <button type="submit">Send Message</button>
+   </form>
         </div>
-
       </section>
 
       {/* Map */}
@@ -189,9 +178,8 @@ Send Message
         ></iframe>
 
       </section>
- <Footer/>
+     <Footer/>
     </>
   );
 }
-
 export default Contact;

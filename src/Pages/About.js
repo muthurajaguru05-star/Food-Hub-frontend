@@ -137,12 +137,8 @@ function About() {
             <h3>Michael Lee</h3>
             <p>Italian Chef</p>
           </div>
-
         </div>
-
       </section>
-
-
 
       {/* Stats */}
 

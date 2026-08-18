@@ -54,7 +54,6 @@ timerProgressBar: true
 }
 
 return(
-
 <>
 
 <Navebar/>
@@ -113,9 +112,6 @@ BUY NOW
 <Footer/>
 
 </>
-
 )
-
 }
-
 export default ProductInfo;

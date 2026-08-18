@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 // Components
 import Navebar from "./Components/Navebar";
 import Cart from "./Components/Cart";
@@ -17,10 +18,7 @@ import Register from "./Pages/Register";
 import ProductInfo from "./Pages/ProductInfo";
 import Profile from "./Components/Profile";
 
-
 // import Footer from "./Components/Footer";
-
-
 
 import AdminLogin from "./Admin panel/AdminLogin";
 import Dashboard from "./Admin panel/Dashboard";
@@ -32,8 +30,6 @@ import Categories from "./Admin panel/Categories";
 import AddCategory from "./Admin panel/AddCategory";
 import EditCategory from "./Admin panel/EditCategory";
 import EditFood from "./Admin panel/EditFood";
-
-
 
 function App() {
   return (
@@ -58,7 +54,6 @@ function App() {
 
 
 
-
            <Route path="/admin" element={<AdminLogin />} />
            <Route path="/dashboard" element={<Dashboard />} />
            <Route path="/admin/manage-food" element={<ManageFood/>}/>
@@ -72,7 +67,6 @@ function App() {
            <Route path="/admin/edit-category/:id" element={<EditCategory />}/>
            <Route path="/admin/edit-food/:id" element={<EditFood />}/>
            
-    
 
       </Routes>
     </BrowserRouter>

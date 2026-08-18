@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 import Navebar from "../Components/Navebar";
 import "../Website css/Login.css";
 
-
 function Login(){
    const navigate=useNavigate();
   const [loginData,setLoginData]=useState({

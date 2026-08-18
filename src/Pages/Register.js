@@ -18,7 +18,6 @@ function Register() {
     role:"User"
   });
 
-
   const handleChange = (e)=>{
     setFormData({
       ...formData,
@@ -67,31 +66,20 @@ function Register() {
 }
   }
 
-
   return(
     <>
 
     <Navebar/>
 
-
     <section className="register-page">
-
 
       <div className="register-box">
 
+        <h1>Create Account</h1>
 
-        <h1>
-          Create Account
-        </h1>
-
-        <p>
-          Join FoodHub and enjoy delicious food
-        </p>
-
-
+        <p>Join FoodHub and enjoy delicious food</p>
 
         <form onSubmit={handleSubmit}>
-
 
           <div className="input-group">
 
@@ -108,12 +96,8 @@ function Register() {
 
           </div>
 
-
-
           <div className="input-group">
-
           <label>Email</label>
-
           <input
           type="email"
           name="email"
@@ -122,7 +106,6 @@ function Register() {
           onChange={handleChange}
           required
           />
-
           </div>
 
           <div className="input-group">
@@ -154,43 +137,23 @@ function Register() {
 
           </div>
           <div className="input-group">
-
           <label>Select Role</label>
 
-
-          <select
-          name="role"
+          <select name="role"
           value={formData.role}
           onChange={handleChange}
           >
 
-          <option value="User">
-            User
-          </option>
+          <option value="User">User</option>
           </select>
-
-
           </div>
 
-
-
-
-          <button className="register-btn">
-            Register
-          </button>
+          <button className="register-btn"> Register</button>
         </form>
-
-
       </div>
-
-
     </section>
-
 
     </>
   );
-
 }
-
-
 export default Register;
