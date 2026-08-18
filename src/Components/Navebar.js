@@ -158,20 +158,6 @@ Contact
 </ul>
 
 <div className="nav-right">
-
-
-<Link to="/booktable">
-
-<button className="navebarbook-btn">
-
-Book Table
-
-</button>
-
-</Link>
-
-
-
 {
 user ?
 <>

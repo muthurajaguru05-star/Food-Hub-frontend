@@ -12,7 +12,6 @@ import Menu from "./Pages/Menu";
 import About from "./Pages/About";
 import Gallery from "./Pages/Gallery";
 import Contact from "./Pages/Contact";
-import Booktable from "./Pages/Booktable";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import ProductInfo from "./Pages/ProductInfo";
@@ -50,7 +49,6 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/booktable" element={<Booktable />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/product/:id" element={<ProductInfo/>}/>
