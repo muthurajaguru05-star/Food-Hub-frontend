@@ -25,7 +25,7 @@ function Orders() {
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage = 6;
+  const ordersPerPage = 1;
 
   useEffect(() => {
     getOrders();
