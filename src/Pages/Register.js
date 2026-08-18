@@ -62,10 +62,8 @@ function Register() {
     title: "Error",
     text: err.response?.data?.message || "Registration Failed"
   });
-
 }
   }
-
   return(
     <>
 
