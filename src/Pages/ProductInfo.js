@@ -1,6 +1,6 @@
 import React,{useEffect,useState} from "react";
 import axios from "axios";
-import {useParams} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import Navebar from "../Components/Navebar";
 import Footer from "../Components/Footer";
 import Swal from "sweetalert2";
@@ -9,6 +9,7 @@ import "../Website css/ProductInfo.css";
 function ProductInfo(){
 
 const {id}=useParams();
+const navigate = useNavigate();
 
 const [food,setFood]=useState({});
 
@@ -25,6 +26,22 @@ useEffect(()=>{
 },[id]);
 
 const addToCart=()=>{
+
+const isLogin = localStorage.getItem("isLogin") === "true";
+
+if(!isLogin) {
+  Swal.fire({
+    icon: "warning",
+    title: "Login Required",
+    text: "Please login to add items to cart",
+    timer: 2000,
+    showConfirmButton: false
+  });
+  setTimeout(() => {
+    navigate("/login");
+  }, 2000);
+  return;
+}
 
 let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
@@ -51,6 +68,41 @@ timer:1800,
 timerProgressBar: true
 });
 
+}
+
+const buyNow = () => {
+  const isLogin = localStorage.getItem("isLogin") === "true";
+
+  if(!isLogin) {
+    Swal.fire({
+      icon: "warning",
+      title: "Login Required",
+      text: "Please login to buy items",
+      timer: 2000,
+      showConfirmButton: false
+    });
+    setTimeout(() => {
+      navigate("/login");
+    }, 2000);
+    return;
+  }
+
+  let cart=JSON.parse(localStorage.getItem("cart"))||[];
+  
+  // Add to cart with qty 1
+  cart.push({
+    _id:food._id,
+    name:food.name,
+    price:food.price,
+    category:food.category,
+    image:food.image,
+    qty:1
+  });
+
+  localStorage.setItem("cart",JSON.stringify(cart));
+  window.dispatchEvent(new Event("cartUpdated"));
+
+  navigate("/cart");
 }
 
 return(
@@ -97,6 +149,7 @@ ADD TO CART
 
 <button
 className="buy-btn"
+onClick={buyNow}
 >
 BUY NOW
 </button>
