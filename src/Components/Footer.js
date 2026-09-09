@@ -17,11 +17,8 @@ function Footer(){
       <div className="footer-container">
 
         <div className="footer-box">
-
           <h2> Food<span>Hub</span></h2>
-
           <p> Delicious food made with love. Fresh taste and quality ingredients.</p>
-
         </div>
 
         <div className="footer-box">
@@ -65,10 +62,9 @@ function Footer(){
       </div>
 
       <div className="footer-bottom">
-
-        © 2026 FoodHub | All Rights Reserved
-
+          © 2026 FoodHub | All Rights Reserved
       </div>
+      
     </footer>
   );
 }
