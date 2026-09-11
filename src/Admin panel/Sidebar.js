@@ -10,15 +10,36 @@ import {
   FaThLarge,
 } from "react-icons/fa";
 
+import Swal from "sweetalert2";
 import "../Admin css/Sidebar.css";
 
 function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const logout = () => {
-    localStorage.removeItem("admin");
-    navigate("/admin");
+  const logout = async () => {
+    const result = await Swal.fire({
+      title: "Are you sure you want to logout?",
+      text: "You will need to login again to access the admin panel.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#ff5722",
+      cancelButtonColor: "#6c757d",
+      reverseButtons: false,
+    });
+
+    if (result.isConfirmed) {
+      localStorage.removeItem("admin");
+      await Swal.fire({
+        icon: "success",
+        title: "Logged Out Successfully",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+      navigate("/admin");
+    }
   };
 
   return (
