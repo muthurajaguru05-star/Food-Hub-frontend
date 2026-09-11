@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import {
   FaUtensils,
@@ -8,6 +9,11 @@ import {
   FaClock,
   FaCheckCircle,
   FaSync,
+  FaUsers,
+  FaTags,
+  FaArrowRight,
+  FaCalendarAlt,
+  FaChartLine,
 } from "react-icons/fa";
 
 import Sidebar from "./Sidebar";
@@ -17,6 +23,8 @@ import "../Admin css/Dashboard.css";
 
 function Dashboard() {
   const [totalFoods, setTotalFoods] = useState(0);
+  const [totalCategories, setTotalCategories] = useState(0);
+  const [totalUsers, setTotalUsers] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [pendingOrders, setPendingOrders] = useState(0);
@@ -24,587 +32,428 @@ function Dashboard() {
   const [recentOrders, setRecentOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // =========================
-  // PAGINATION
-  // =========================
+  // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
+  const ordersPerPage = 4;
 
-  // 2 orders per page
-  const ordersPerPage = 2;
-
-  // =========================
   // GET DASHBOARD DATA
-  // =========================
   const getDashboardData = async () => {
     setLoading(true);
 
     try {
-      // =========================
-      // FETCH FOODS
-      // =========================
-      const foodsRes = await axios.get(
-        "http://localhost:5000/api/foods"
-      );
+      // Fetch Foods
+      const foodsRes = await axios.get("http://localhost:5000/api/foods");
+      setTotalFoods(Array.isArray(foodsRes.data) ? foodsRes.data.length : 0);
 
-      setTotalFoods(
-        Array.isArray(foodsRes.data)
-          ? foodsRes.data.length
-          : 0
-      );
+      // Fetch Categories
+      try {
+        const catRes = await axios.get("http://localhost:5000/api/categories");
+        setTotalCategories(Array.isArray(catRes.data) ? catRes.data.length : 0);
+      } catch (err) {
+        console.log("Categories error:", err);
+      }
 
-      // =========================
-      // FETCH ORDERS
-      // =========================
-      const ordersRes = await axios.get(
-        "http://localhost:5000/api/orders"
-      );
+      // Fetch Users
+      try {
+        const userRes = await axios.get("http://localhost:5000/api/register/all");
+        if (userRes.data?.success && Array.isArray(userRes.data.data)) {
+          setTotalUsers(userRes.data.data.length);
+        }
+      } catch (err) {
+        console.log("Users fetch error:", err);
+      }
 
-      const orders = Array.isArray(ordersRes.data)
-        ? ordersRes.data
-        : [];
+      // Fetch Orders
+      const ordersRes = await axios.get("http://localhost:5000/api/orders");
+      const orders = Array.isArray(ordersRes.data) ? ordersRes.data : [];
 
       setTotalOrders(orders.length);
       setRecentOrders(orders);
-
-      // Reset pagination after refresh
       setCurrentPage(1);
 
-      // =========================
-      // TOTAL REVENUE
-      // =========================
+      // Revenue Calculation
       const revenue = orders.reduce(
-        (sum, order) =>
-          sum + (Number(order.total) || 0),
+        (sum, order) => sum + (Number(order.total) || 0),
         0
       );
-
       setTotalRevenue(revenue);
 
-      // =========================
-      // PENDING ORDERS
-      // =========================
+      // Pending Orders
       const pending = orders.filter(
         (order) => order.status === "Pending"
       ).length;
-
       setPendingOrders(pending);
 
-      // =========================
-      // DELIVERED ORDERS
-      // =========================
+      // Delivered Orders
       const delivered = orders.filter(
         (order) => order.status === "Delivered"
       ).length;
-
       setDeliveredOrders(delivered);
-
     } catch (err) {
-      console.error(
-        "Dashboard data error:",
-        err
-      );
+      console.error("Dashboard data error:", err);
     } finally {
       setLoading(false);
     }
   };
 
-  // =========================
-  // LOAD DASHBOARD
-  // =========================
   useEffect(() => {
     getDashboardData();
   }, []);
 
-  // =========================
-  // PAGINATION CALCULATION
-  // =========================
-
-  const totalPages = Math.ceil(
-    recentOrders.length / ordersPerPage
-  );
-
-  const indexOfLastOrder =
-    currentPage * ordersPerPage;
-
-  const indexOfFirstOrder =
-    indexOfLastOrder - ordersPerPage;
-
+  // Pagination Calculations
+  const totalPages = Math.ceil(recentOrders.length / ordersPerPage);
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = recentOrders.slice(
     indexOfFirstOrder,
     indexOfLastOrder
   );
 
-  // =========================
-  // PREVIOUS PAGE
-  // =========================
   const goToPreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
-  // =========================
-  // NEXT PAGE
-  // =========================
   const goToNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
-  // =========================
-  // PAGE NUMBER
-  // =========================
-  const goToPage = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  const goToPage = (pageNumber) => setCurrentPage(pageNumber);
 
-  // =========================
-  // FORMAT DATE
-  // =========================
+  // Format Date Time
   const formatDateTime = (dateStr) => {
     if (!dateStr) return "N/A";
-
     const d = new Date(dateStr);
-
-    return d.toLocaleDateString(
-      "en-IN",
-      {
-        day: "2-digit",
-        month: "short",
-        hour: "2-digit",
-        minute: "2-digit",
-      }
-    );
+    return d.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   return (
     <div className="dashboard">
-
       <Sidebar />
 
       <div className="main">
-
         <Topbar />
 
-        <div className="dashboard-content">
-
-          {/* =========================
-              DASHBOARD HEADER
-          ========================= */}
+        <div className="dashboard-content-wrapper">
+          {/* Header Banner */}
           <div className="dash-header">
-
-            <div>
-
+            <div className="header-title-wrap">
               <h2>
-                📊 Admin Dashboard
+                <FaChartLine className="header-icon" /> Admin Overview Dashboard
               </h2>
-
               <p className="dash-subtitle">
-                Real-time store metrics and latest
-                order updates from MongoDB
+                Real-time metrics, product analytics & live customer orders from MongoDB
               </p>
-
             </div>
 
-            <button
-              className="refresh-btn"
-              onClick={getDashboardData}
-            >
-
-              <FaSync
-                className={
-                  loading ? "spin" : ""
-                }
-              />
-
-              Refresh Stats
-
-            </button>
-
+            <div className="header-action-group">
+              <button className="refresh-btn" onClick={getDashboardData}>
+                <FaSync className={loading ? "spin" : ""} /> Refresh Stats
+              </button>
+              <span className="live-status-tag">
+                <span className="pulse-dot"></span> Live Store
+              </span>
+            </div>
           </div>
 
-          {/* =========================
-              DASHBOARD CARDS
-          ========================= */}
-          <div className="cards">
-
-            {/* Total Foods */}
-            <div className="card card-food">
-
-              <div className="card-icon">
-                <FaUtensils />
+          {/* Metric Cards Grid */}
+          <div className="cards-grid">
+            {/* Total Revenue */}
+            <div className="card card-revenue">
+              <div className="card-icon-wrap">
+                <FaMoneyBillWave />
               </div>
-
               <div className="card-info">
-
-                <h3>Total Foods</h3>
-
-                <h2>
-                  {totalFoods}
-                </h2>
-
+                <h3>Total Revenue</h3>
+                <h2>₹ {totalRevenue.toLocaleString("en-IN")}</h2>
+                <span className="card-sub-tag">Lifetime earnings</span>
               </div>
-
             </div>
 
             {/* Total Orders */}
             <div className="card card-orders">
-
-              <div className="card-icon">
+              <div className="card-icon-wrap">
                 <FaShoppingBag />
               </div>
-
               <div className="card-info">
-
                 <h3>Total Orders</h3>
-
-                <h2>
-                  {totalOrders}
-                </h2>
-
+                <h2>{totalOrders}</h2>
+                <span className="card-sub-tag">Placed orders</span>
               </div>
-
             </div>
 
-            {/* Total Revenue */}
-            <div className="card card-revenue">
-
-              <div className="card-icon">
-                <FaMoneyBillWave />
+            {/* Total Foods */}
+            <div className="card card-food">
+              <div className="card-icon-wrap">
+                <FaUtensils />
               </div>
-
               <div className="card-info">
-
-                <h3>Total Revenue</h3>
-
-                <h2>
-                  ₹{" "}
-                  {totalRevenue.toLocaleString(
-                    "en-IN"
-                  )}
-                </h2>
-
+                <h3>Food Dishes</h3>
+                <h2>{totalFoods}</h2>
+                <span className="card-sub-tag">Active menu items</span>
               </div>
+            </div>
 
+            {/* Total Categories */}
+            <div className="card card-categories">
+              <div className="card-icon-wrap">
+                <FaTags />
+              </div>
+              <div className="card-info">
+                <h3>Categories</h3>
+                <h2>{totalCategories}</h2>
+                <span className="card-sub-tag">Menu collections</span>
+              </div>
+            </div>
+
+            {/* Total Users */}
+            <div className="card card-users">
+              <div className="card-icon-wrap">
+                <FaUsers />
+              </div>
+              <div className="card-info">
+                <h3>Registered Users</h3>
+                <h2>{totalUsers}</h2>
+                <span className="card-sub-tag">Customer accounts</span>
+              </div>
             </div>
 
             {/* Pending Orders */}
             <div className="card card-pending">
-
-              <div className="card-icon">
+              <div className="card-icon-wrap">
                 <FaClock />
               </div>
-
               <div className="card-info">
-
                 <h3>Pending Orders</h3>
-
-                <h2>
-                  {pendingOrders}
-                </h2>
-
+                <h2>{pendingOrders}</h2>
+                <span className="card-sub-tag warning-text">Needs processing</span>
               </div>
-
             </div>
 
             {/* Delivered Orders */}
             <div className="card card-delivered">
-
-              <div className="card-icon">
+              <div className="card-icon-wrap">
                 <FaCheckCircle />
               </div>
-
               <div className="card-info">
-
-                <h3>Delivered Orders</h3>
-
-                <h2>
-                  {deliveredOrders}
-                </h2>
-
+                <h3>Completed Orders</h3>
+                <h2>{deliveredOrders}</h2>
+                <span className="card-sub-tag success-text">Successfully delivered</span>
               </div>
-
             </div>
-
           </div>
 
-          {/* =========================
-              RECENT ORDERS
-          ========================= */}
-          <div className="recent-orders">
+          {/* Quick Nav Shortcuts */}
+          <div className="dash-quick-nav">
+            <h3 className="quick-nav-title">Quick Management Shortcuts</h3>
+            <div className="quick-buttons-row">
+              <Link to="/admin/manage-food" className="quick-nav-btn">
+                <FaUtensils /> Manage Food
+              </Link>
+              <Link to="/admin/add-food" className="quick-nav-btn alt">
+                <FaUtensils /> Add New Food
+              </Link>
+              <Link to="/admin/categories" className="quick-nav-btn">
+                <FaTags /> Categories
+              </Link>
+              <Link to="/admin/orders" className="quick-nav-btn">
+                <FaShoppingBag /> Orders
+              </Link>
+              <Link to="/admin/users" className="quick-nav-btn">
+                <FaUsers /> View Users
+              </Link>
+            </div>
+          </div>
 
+          {/* Recent Orders Card */}
+          <div className="recent-orders-card">
             <div className="recent-orders-header">
+              <div>
+                <h2>
+                  🛒 Recent Customer Orders
+                </h2>
+                <p className="section-desc">Latest transactions recorded in database</p>
+              </div>
 
-              <h2>
-                🛒 Recent Customer Orders
-              </h2>
-
-              <span className="live-badge">
-                Live MongoDB Data
-              </span>
-
+              <Link to="/admin/orders" className="view-all-link">
+                View All Orders <FaArrowRight />
+              </Link>
             </div>
 
-            {/* =========================
-                ORDERS TABLE
-            ========================= */}
-            <table>
+            {/* Desktop Table View */}
+            <div className="table-responsive-wrapper">
+              <table className="dash-table">
+                <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Items Ordered</th>
+                    <th>Total</th>
+                    <th>Date & Time</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
 
-              <thead>
-
-                <tr>
-
-                  <th>S.No</th>
-
-                  <th>Order ID</th>
-
-                  <th>Customer</th>
-
-                  <th>Food Items</th>
-
-                  <th>Total</th>
-
-                  <th>Date & Time</th>
-
-                  <th>Status</th>
-
-                </tr>
-
-              </thead>
-
-              <tbody>
-
-                {currentOrders.length > 0 ? (
-
-                  currentOrders.map(
-                    (order, index) => (
-
-                      <tr key={order._id}>
-
-                        {/* S.No */}
+                <tbody>
+                  {currentOrders.length > 0 ? (
+                    currentOrders.map((order, index) => (
+                      <tr key={order._id} className="dash-row">
+                        <td>{indexOfFirstOrder + index + 1}</td>
                         <td>
-                          {indexOfFirstOrder +
-                            index +
-                            1}
-                        </td>
-
-                        {/* Order ID */}
-                        <td>
-
                           <span className="order-code">
-
-                            #
-                            {order._id
-                              ? order._id.substring(
-                                  order._id.length -
-                                    6
-                                )
-                              : "N/A"}
-
+                            #{order._id ? order._id.substring(order._id.length - 6) : "N/A"}
                           </span>
-
                         </td>
-
-                        {/* Customer */}
                         <td>
-
-                          <strong>
-                            {order.name}
-                          </strong>
-
-                          <div
-                            style={{
-                              fontSize:
-                                "12px",
-                              color: "#666",
-                            }}
-                          >
-                            {order.mobile}
+                          <div className="customer-cell">
+                            <strong>{order.name}</strong>
+                            <span className="customer-mobile">{order.mobile}</span>
                           </div>
-
                         </td>
-
-                        {/* Food Items */}
                         <td>
-
-                          {order.items &&
-                          order.items.length >
-                            0 ? (
-
-                            order.items.map(
-                              (item, i) => (
-
-                                <div
-                                  key={i}
-                                  className="dash-item-line"
-                                >
-                                  {item.name} ×{" "}
-                                  {item.qty}
-                                </div>
-
-                              )
-                            )
-
-                          ) : (
-
-                            "N/A"
-
-                          )}
-
+                          <div className="items-list-wrap">
+                            {order.items && order.items.length > 0 ? (
+                              order.items.map((item, i) => (
+                                <span key={i} className="dash-item-pill">
+                                  {item.name} × {item.qty}
+                                </span>
+                              ))
+                            ) : (
+                              "N/A"
+                            )}
+                          </div>
                         </td>
-
-                        {/* Total */}
                         <td>
-
-                          <strong>
+                          <strong className="order-total-price">
                             ₹ {order.total}
                           </strong>
-
                         </td>
-
-                        {/* Date */}
-                        <td
-                          style={{
-                            fontSize:
-                              "12px",
-                            color: "#666",
-                          }}
-                        >
-                          {formatDateTime(
-                            order.createdAt
-                          )}
-                        </td>
-
-                        {/* Status */}
                         <td>
-
+                          <div className="date-cell">
+                            <FaCalendarAlt className="date-icon" />
+                            {formatDateTime(order.createdAt)}
+                          </div>
+                        </td>
+                        <td>
                           <span
                             className={`badge ${
-                              order.status ===
-                              "Pending"
+                              order.status === "Pending"
                                 ? "pending"
-                                : order.status ===
-                                  "Preparing"
+                                : order.status === "Preparing"
                                 ? "processing"
-                                : order.status ===
-                                  "Delivered"
+                                : order.status === "Delivered"
                                 ? "success"
                                 : "danger"
                             }`}
                           >
-                            {order.status ||
-                              "Pending"}
+                            {order.status || "Pending"}
                           </span>
-
                         </td>
-
                       </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="7" className="empty-cell">
+                        {loading ? "Loading latest orders..." : "No Orders Found in Database"}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
 
-                    )
-                  )
+            {/* Mobile Cards Grid View */}
+            <div className="mobile-orders-cards">
+              {currentOrders.length > 0 ? (
+                currentOrders.map((order, index) => (
+                  <div key={order._id} className="mobile-order-card">
+                    <div className="mobile-card-header">
+                      <span className="order-code">
+                        #{order._id ? order._id.substring(order._id.length - 6) : "N/A"}
+                      </span>
+                      <span
+                        className={`badge ${
+                          order.status === "Pending"
+                            ? "pending"
+                            : order.status === "Preparing"
+                            ? "processing"
+                            : order.status === "Delivered"
+                            ? "success"
+                            : "danger"
+                        }`}
+                      >
+                        {order.status || "Pending"}
+                      </span>
+                    </div>
 
-                ) : (
+                    <div className="mobile-card-body">
+                      <h4>{order.name}</h4>
+                      <p className="mobile-phone">{order.mobile}</p>
 
-                  <tr>
+                      <div className="mobile-items">
+                        {order.items && order.items.length > 0
+                          ? order.items.map((item, i) => (
+                              <div key={i} className="mobile-item-line">
+                                {item.name} × {item.qty}
+                              </div>
+                            ))
+                          : null}
+                      </div>
 
-                    <td
-                      colSpan="7"
-                      style={{
-                        textAlign:
-                          "center",
-                        padding:
-                          "20px",
-                      }}
-                    >
-                      {loading
-                        ? "Loading latest orders..."
-                        : "No Orders Found in MongoDB"}
-                    </td>
+                      <div className="mobile-card-footer">
+                        <span className="mobile-date">
+                          {formatDateTime(order.createdAt)}
+                        </span>
+                        <strong className="mobile-price">₹{order.total}</strong>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : null}
+            </div>
 
-                  </tr>
-
-                )}
-
-              </tbody>
-
-            </table>
-
-            {/* =========================
-                PAGINATION
-            ========================= */}
+            {/* Pagination Controls */}
             {totalPages > 1 && (
-
               <div className="dashboard-pagination">
-
-                {/* Previous */}
                 <button
-                  onClick={
-                    goToPreviousPage
-                  }
-                  disabled={
-                    currentPage === 1
-                  }
+                  onClick={goToPreviousPage}
+                  disabled={currentPage === 1}
+                  className="nav-btn"
                 >
                   Previous
                 </button>
 
-                {/* Page Numbers */}
-                {Array.from(
-                  {
-                    length:
-                      totalPages,
-                  },
-                  (_, index) =>
-                    index + 1
-                ).map(
+                {Array.from({ length: totalPages }, (_, index) => index + 1).map(
                   (pageNumber) => (
-
                     <button
-                      key={
-                        pageNumber
-                      }
-                      className={
-                        currentPage ===
-                        pageNumber
-                          ? "active"
-                          : ""
-                      }
-                      onClick={() =>
-                        goToPage(
-                          pageNumber
-                        )
-                      }
+                      key={pageNumber}
+                      className={`num-btn ${
+                        currentPage === pageNumber ? "active" : ""
+                      }`}
+                      onClick={() => goToPage(pageNumber)}
                     >
                       {pageNumber}
                     </button>
-
                   )
                 )}
 
-                {/* Next */}
                 <button
-                  onClick={
-                    goToNextPage
-                  }
-                  disabled={
-                    currentPage ===
-                    totalPages
-                  }
+                  onClick={goToNextPage}
+                  disabled={currentPage === totalPages}
+                  className="nav-btn"
                 >
                   Next
                 </button>
-
               </div>
-
             )}
-
           </div>
-
         </div>
-
       </div>
-
     </div>
   );
 }
