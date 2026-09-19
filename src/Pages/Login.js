@@ -4,6 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import Navebar from "../Components/Navebar";
 import "../Website css/Login.css";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Login(){
    const navigate=useNavigate();
@@ -11,6 +12,8 @@ function Login(){
         email:"",
         password:""
       });
+
+  const [showPassword, setShowPassword] = useState(false);
 
 const handleChange=(e)=>{
 setLoginData({
@@ -82,14 +85,22 @@ onChange={handleChange}
 required
 />
 
-<input
-type="password"
-name="password"
-placeholder="Password"
-value={loginData.password}
-onChange={handleChange}
-required
-/>
+<div className="password-wrapper">
+  <input
+  type={showPassword ? "text" : "password"}
+  name="password"
+  placeholder="Password"
+  value={loginData.password}
+  onChange={handleChange}
+  required
+  />
+  <span 
+    className="password-toggle-icon" 
+    onClick={() => setShowPassword(!showPassword)}
+  >
+    {showPassword ? <FaEyeSlash /> : <FaEye />}
+  </span>
+</div>
 
 <button type="submit">
 Login

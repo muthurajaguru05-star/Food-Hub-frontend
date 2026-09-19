@@ -4,7 +4,7 @@ import Navebar from "../Components/Navebar";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Register() {
 
@@ -17,6 +17,8 @@ function Register() {
     password:"",
     role:"User"
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e)=>{
     setFormData({
@@ -124,14 +126,22 @@ function Register() {
 
           <label>Password</label>
 
-          <input
-          type="password"
-          name="password"
-          placeholder="Create password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-          />
+          <div className="password-wrapper">
+            <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder="Create password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            />
+            <span 
+              className="password-toggle-icon" 
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
 
           </div>
           <div className="input-group">

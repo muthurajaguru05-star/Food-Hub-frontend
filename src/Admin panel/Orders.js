@@ -23,9 +23,9 @@ function Orders() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
 
-  // Pagination
+  // Pagination (2 orders per page for compact layout where at least 2 customer names are visible at once)
   const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage = 1;
+  const ordersPerPage = 2;
 
   useEffect(() => {
     getOrders();

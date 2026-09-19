@@ -24,9 +24,9 @@ function Users() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // Pagination State
+  // Pagination State (3 users per page for compact layout where multiple users are visible at once)
   const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 3;
+  const usersPerPage = 5;
 
   // Fetch Users
   useEffect(() => {

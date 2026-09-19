@@ -14,6 +14,8 @@ import {
   FaArrowRight,
   FaCalendarAlt,
   FaChartLine,
+  FaPlus,
+  FaBoxOpen
 } from "react-icons/fa";
 
 import Sidebar from "./Sidebar";
@@ -32,9 +34,9 @@ function Dashboard() {
   const [recentOrders, setRecentOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Pagination State
+  // Pagination State (3 per page for zero scroll fit)
   const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage = 4;
+  const ordersPerPage = 3;
 
   // GET DASHBOARD DATA
   const getDashboardData = async () => {
@@ -132,27 +134,27 @@ function Dashboard() {
   };
 
   return (
-    <div className="dashboard">
+    <div className="dashboard-app-wrapper">
       <Sidebar />
 
       <div className="main">
         <Topbar />
 
         <div className="dashboard-content-wrapper">
-          {/* Header Banner */}
+          {/* Top Header Row */}
           <div className="dash-header">
             <div className="header-title-wrap">
               <h2>
-                <FaChartLine className="header-icon" /> Admin Overview Dashboard
+                <FaChartLine className="header-icon" /> Dashboard Overview
               </h2>
               <p className="dash-subtitle">
-                Real-time metrics, product analytics & live customer orders from MongoDB
+                Real-time metrics & store analytics
               </p>
             </div>
 
             <div className="header-action-group">
               <button className="refresh-btn" onClick={getDashboardData}>
-                <FaSync className={loading ? "spin" : ""} /> Refresh Stats
+                <FaSync className={loading ? "spin" : ""} /> Refresh
               </button>
               <span className="live-status-tag">
                 <span className="pulse-dot"></span> Live Store
@@ -168,9 +170,9 @@ function Dashboard() {
                 <FaMoneyBillWave />
               </div>
               <div className="card-info">
-                <h3>Total Revenue</h3>
+                <h3>Revenue</h3>
                 <h2>₹ {totalRevenue.toLocaleString("en-IN")}</h2>
-                <span className="card-sub-tag">Lifetime earnings</span>
+                <span className="card-sub-tag">Lifetime</span>
               </div>
             </div>
 
@@ -182,7 +184,7 @@ function Dashboard() {
               <div className="card-info">
                 <h3>Total Orders</h3>
                 <h2>{totalOrders}</h2>
-                <span className="card-sub-tag">Placed orders</span>
+                <span className="card-sub-tag">All time</span>
               </div>
             </div>
 
@@ -192,9 +194,9 @@ function Dashboard() {
                 <FaUtensils />
               </div>
               <div className="card-info">
-                <h3>Food Dishes</h3>
+                <h3>Dishes</h3>
                 <h2>{totalFoods}</h2>
-                <span className="card-sub-tag">Active menu items</span>
+                <span className="card-sub-tag">In menu</span>
               </div>
             </div>
 
@@ -206,7 +208,7 @@ function Dashboard() {
               <div className="card-info">
                 <h3>Categories</h3>
                 <h2>{totalCategories}</h2>
-                <span className="card-sub-tag">Menu collections</span>
+                <span className="card-sub-tag">Active</span>
               </div>
             </div>
 
@@ -216,9 +218,9 @@ function Dashboard() {
                 <FaUsers />
               </div>
               <div className="card-info">
-                <h3>Registered Users</h3>
+                <h3>Users</h3>
                 <h2>{totalUsers}</h2>
-                <span className="card-sub-tag">Customer accounts</span>
+                <span className="card-sub-tag">Accounts</span>
               </div>
             </div>
 
@@ -228,9 +230,9 @@ function Dashboard() {
                 <FaClock />
               </div>
               <div className="card-info">
-                <h3>Pending Orders</h3>
+                <h3>Pending</h3>
                 <h2>{pendingOrders}</h2>
-                <span className="card-sub-tag warning-text">Needs processing</span>
+                <span className="card-sub-tag warning-text">Processing</span>
               </div>
             </div>
 
@@ -240,22 +242,22 @@ function Dashboard() {
                 <FaCheckCircle />
               </div>
               <div className="card-info">
-                <h3>Completed Orders</h3>
+                <h3>Completed</h3>
                 <h2>{deliveredOrders}</h2>
-                <span className="card-sub-tag success-text">Successfully delivered</span>
+                <span className="card-sub-tag success-text">Delivered</span>
               </div>
             </div>
           </div>
 
-          {/* Quick Nav Shortcuts */}
+          {/* Management Shortcuts Bar */}
           <div className="dash-quick-nav">
-            <h3 className="quick-nav-title">Quick Management Shortcuts</h3>
+            <span className="quick-nav-label">Quick Actions:</span>
             <div className="quick-buttons-row">
               <Link to="/admin/manage-food" className="quick-nav-btn">
                 <FaUtensils /> Manage Food
               </Link>
               <Link to="/admin/add-food" className="quick-nav-btn alt">
-                <FaUtensils /> Add New Food
+                <FaPlus /> Add Food
               </Link>
               <Link to="/admin/categories" className="quick-nav-btn">
                 <FaTags /> Categories
@@ -264,35 +266,33 @@ function Dashboard() {
                 <FaShoppingBag /> Orders
               </Link>
               <Link to="/admin/users" className="quick-nav-btn">
-                <FaUsers /> View Users
+                <FaUsers /> Users
               </Link>
             </div>
           </div>
 
-          {/* Recent Orders Card */}
+          {/* Recent Orders Section */}
           <div className="recent-orders-card">
             <div className="recent-orders-header">
-              <div>
-                <h2>
-                  🛒 Recent Customer Orders
-                </h2>
-                <p className="section-desc">Latest transactions recorded in database</p>
+              <div className="header-left-title">
+                <h2><FaBoxOpen className="title-icon" /> Recent Orders</h2>
+                <span className="badge-count">{recentOrders.length} total</span>
               </div>
 
               <Link to="/admin/orders" className="view-all-link">
-                View All Orders <FaArrowRight />
+                View All <FaArrowRight />
               </Link>
             </div>
 
-            {/* Desktop Table View */}
+            {/* Table View */}
             <div className="table-responsive-wrapper">
               <table className="dash-table">
                 <thead>
                   <tr>
-                    <th>S.No</th>
+                    <th>#</th>
                     <th>Order ID</th>
-                    <th>Customer Name</th>
-                    <th>Items Ordered</th>
+                    <th>Customer</th>
+                    <th>Items</th>
                     <th>Total</th>
                     <th>Date & Time</th>
                     <th>Status</th>
@@ -302,7 +302,7 @@ function Dashboard() {
                 <tbody>
                   {currentOrders.length > 0 ? (
                     currentOrders.map((order, index) => (
-                      <tr key={order._id} className="dash-row">
+                      <tr key={order._id || index} className="dash-row">
                         <td>{indexOfFirstOrder + index + 1}</td>
                         <td>
                           <span className="order-code">
@@ -359,7 +359,7 @@ function Dashboard() {
                   ) : (
                     <tr>
                       <td colSpan="7" className="empty-cell">
-                        {loading ? "Loading latest orders..." : "No Orders Found in Database"}
+                        {loading ? "Loading orders..." : "No Recent Orders"}
                       </td>
                     </tr>
                   )}
@@ -370,7 +370,7 @@ function Dashboard() {
             {/* Mobile Cards Grid View */}
             <div className="mobile-orders-cards">
               {currentOrders.length > 0 ? (
-                currentOrders.map((order, index) => (
+                currentOrders.map((order) => (
                   <div key={order._id} className="mobile-order-card">
                     <div className="mobile-card-header">
                       <span className="order-code">
@@ -425,7 +425,7 @@ function Dashboard() {
                   disabled={currentPage === 1}
                   className="nav-btn"
                 >
-                  Previous
+                  Prev
                 </button>
 
                 {Array.from({ length: totalPages }, (_, index) => index + 1).map(
